@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>危化品台账 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards" class="active">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1>危化品台账</h1>
+      <a href="/hazards/create" class="btn btn-primary">新增危化品</a>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>名称</th>
+          <th>CAS号</th>
+          <th>危险分类</th>
+          <th>UN编号</th>
+          <th>库存</th>
+          <th>存放位置</th>
+          <th>责任人</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% hazards.forEach(function(h) { %>
+          <tr>
+            <td><%= h.id %></td>
+            <td><a href="/hazards/<%= h.id %>"><%= h.name %></a></td>
+            <td><%= h.cas_number || '-' %></td>
+            <td><%= h.hazard_class %></td>
+            <td><%= h.un_number || '-' %></td>
+            <td><%= h.stock_quantity %></td>
+            <td><%= h.location || '-' %></td>
+            <td><%= h.supervisor || '-' %></td>
+            <td><span class="badge <%= h.status === '正常' ? 'badge-success' : 'badge-warning' %>"><%= h.status %></span></td>
+            <td>
+              <a href="/hazards/<%= h.id %>" class="btn btn-sm">详情</a>
+            </td>
+          </tr>
+        <% }) %>
+        <% if (hazards.length === 0) { %>
+          <tr><td colspan="10" class="text-center">暂无危化品数据</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

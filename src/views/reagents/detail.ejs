@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= reagent.name %> - 试剂详情 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents" class="active">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1><%= reagent.name %></h1>
+      <div>
+        <a href="/reagents/<%= reagent.id %>/edit" class="btn btn-primary">编辑</a>
+        <a href="/reagents" class="btn">返回列表</a>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">CAS号</span>
+          <span class="detail-value"><%= reagent.cas_number || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">分类</span>
+          <span class="detail-value"><%= reagent.category %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">规格</span>
+          <span class="detail-value"><%= reagent.specification || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">单位</span>
+          <span class="detail-value"><%= reagent.unit %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">库存数量</span>
+          <span class="detail-value <%= reagent.stock_quantity <= reagent.min_quantity ? 'text-danger' : '' %>"><%= reagent.stock_quantity %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">最低库存</span>
+          <span class="detail-value"><%= reagent.min_quantity %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">存放位置</span>
+          <span class="detail-value"><%= reagent.location || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">供应商</span>
+          <span class="detail-value"><%= reagent.supplier || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">单价(元)</span>
+          <span class="detail-value"><%= reagent.price ? reagent.price.toFixed(2) : '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">状态</span>
+          <span class="detail-value"><span class="badge <%= reagent.status === '正常' ? 'badge-success' : 'badge-warning' %>"><%= reagent.status %></span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>出入库操作</h2>
+      <form action="/reagents/<%= reagent.id %>/log" method="POST" class="inline-form">
+        <select name="action" required>
+          <option value="采购入库">采购入库</option>
+          <option value="领用出库">领用出库</option>
+        </select>
+        <input type="number" name="quantity" min="1" required placeholder="数量">
+        <input type="text" name="remark" placeholder="备注">
+        <button type="submit" class="btn btn-primary">提交</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2>操作记录</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>时间</th>
+            <th>操作</th>
+            <th>数量</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% logs.forEach(function(log) { %>
+            <tr>
+              <td><%= log.created_at %></td>
+              <td><span class="badge <%= log.action === '采购入库' ? 'badge-success' : 'badge-info' %>"><%= log.action %></span></td>
+              <td><%= log.quantity %></td>
+              <td><%= log.remark || '-' %></td>
+            </tr>
+          <% }) %>
+          <% if (logs.length === 0) { %>
+            <tr><td colspan="4" class="text-center">暂无操作记录</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

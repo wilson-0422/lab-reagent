@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>试剂管理 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents" class="active">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1>试剂管理</h1>
+      <a href="/reagents/create" class="btn btn-primary">新增试剂</a>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>名称</th>
+          <th>CAS号</th>
+          <th>分类</th>
+          <th>规格</th>
+          <th>库存</th>
+          <th>单位</th>
+          <th>存放位置</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reagents.forEach(function(r) { %>
+          <tr>
+            <td><%= r.id %></td>
+            <td><a href="/reagents/<%= r.id %>"><%= r.name %></a></td>
+            <td><%= r.cas_number || '-' %></td>
+            <td><%= r.category %></td>
+            <td><%= r.specification || '-' %></td>
+            <td><span class="<%= r.stock_quantity <= r.min_quantity ? 'text-danger' : '' %>"><%= r.stock_quantity %></span></td>
+            <td><%= r.unit %></td>
+            <td><%= r.location || '-' %></td>
+            <td><span class="badge <%= r.status === '正常' ? 'badge-success' : 'badge-warning' %>"><%= r.status %></span></td>
+            <td>
+              <a href="/reagents/<%= r.id %>" class="btn btn-sm">详情</a>
+              <a href="/reagents/<%= r.id %>/edit" class="btn btn-sm">编辑</a>
+            </td>
+          </tr>
+        <% }) %>
+        <% if (reagents.length === 0) { %>
+          <tr><td colspan="10" class="text-center">暂无试剂数据</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

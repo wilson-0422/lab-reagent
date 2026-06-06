@@ -1,0 +1,32 @@
+{
+  "name": "lab-reagent",
+  "version": "1.0.0",
+  "description": "实验室试剂与仪器管控平台",
+  "main": "src/server.ts",
+  "scripts": {
+    "start": "npx ts-node src/server.ts",
+    "seed": "npx ts-node src/seed.ts",
+    "dev": "npx ts-node-dev --respawn src/server.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "bcryptjs": "^2.4.3",
+    "connect-sqlite3": "^0.9.15",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/connect-sqlite3": "^0.9.5",
+    "@types/express": "^5.0.0",
+    "@types/express-session": "^1.18.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.10.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.2"
+  }
+}

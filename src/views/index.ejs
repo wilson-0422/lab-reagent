@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <h1>实验室试剂与仪器管控平台</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <p>欢迎使用实验室试剂与仪器管控平台</p>
+    <a href="/auth/login" class="btn btn-primary btn-block">登录系统</a>
+  </div>
+</body>
+</html>

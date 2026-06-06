@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新增实验记录 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments" class="active">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1>新增实验记录</h1>
+      <a href="/experiments" class="btn">返回列表</a>
+    </div>
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <form action="/experiments/create" method="POST" class="form-card">
+      <div class="form-group">
+        <label for="title">实验标题 <span class="required">*</span></label>
+        <input type="text" id="title" name="title" required placeholder="请输入实验标题">
+      </div>
+      <div class="form-group">
+        <label for="category">实验分类 <span class="required">*</span></label>
+        <select id="category" name="category" required>
+          <option value="">请选择分类</option>
+          <option value="水质检测">水质检测</option>
+          <option value="食品检测">食品检测</option>
+          <option value="环境监测">环境监测</option>
+          <option value="土壤检测">土壤检测</option>
+          <option value="化妆品检测">化妆品检测</option>
+          <option value="药品检测">药品检测</option>
+          <option value="材料分析">材料分析</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="description">实验描述</label>
+        <textarea id="description" name="description" rows="3" placeholder="请输入实验目的和背景描述"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="procedure">实验步骤</label>
+        <textarea id="procedure" name="procedure" rows="5" placeholder="请详细记录实验步骤"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="result">实验结果</label>
+        <textarea id="result" name="result" rows="4" placeholder="请记录实验结果数据"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="conclusion">结论</label>
+        <textarea id="conclusion" name="conclusion" rows="3" placeholder="请输入实验结论"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="status">状态</label>
+        <select id="status" name="status">
+          <option value="草稿">草稿</option>
+          <option value="进行中">进行中</option>
+          <option value="已完成">已完成</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">保存</button>
+        <a href="/experiments" class="btn">取消</a>
+      </div>
+    </form>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验记录 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments" class="active">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1>实验记录</h1>
+      <a href="/experiments/create" class="btn btn-primary">新增记录</a>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>标题</th>
+          <th>分类</th>
+          <th>记录人</th>
+          <th>状态</th>
+          <th>创建时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% experiments.forEach(function(e) { %>
+          <tr>
+            <td><%= e.id %></td>
+            <td><a href="/experiments/<%= e.id %>"><%= e.title %></a></td>
+            <td><%= e.category %></td>
+            <td><%= e.user_name %></td>
+            <td><span class="badge <%= e.status === '已完成' ? 'badge-success' : e.status === '进行中' ? 'badge-info' : 'badge-warning' %>"><%= e.status %></span></td>
+            <td><%= e.created_at %></td>
+            <td>
+              <a href="/experiments/<%= e.id %>" class="btn btn-sm">详情</a>
+            </td>
+          </tr>
+        <% }) %>
+        <% if (experiments.length === 0) { %>
+          <tr><td colspan="7" class="text-center">暂无实验记录</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

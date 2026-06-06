@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新增危化品 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards" class="active">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1>新增危化品</h1>
+      <a href="/hazards" class="btn">返回列表</a>
+    </div>
+    <% if (error) { %>
+      <div class="alert alert-error"><%= error %></div>
+    <% } %>
+    <form action="/hazards/create" method="POST" class="form-card">
+      <div class="form-group">
+        <label for="name">化学品名称 <span class="required">*</span></label>
+        <input type="text" id="name" name="name" required placeholder="请输入化学品名称">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cas_number">CAS号</label>
+          <input type="text" id="cas_number" name="cas_number" placeholder="如：7664-93-9">
+        </div>
+        <div class="form-group">
+          <label for="hazard_class">危险分类 <span class="required">*</span></label>
+          <select id="hazard_class" name="hazard_class" required>
+            <option value="">请选择危险分类</option>
+            <option value="第1类 爆炸品">第1类 爆炸品</option>
+            <option value="第2类 压缩气体和液化气体">第2类 压缩气体和液化气体</option>
+            <option value="第3类 易燃液体">第3类 易燃液体</option>
+            <option value="第4类 易燃固体">第4类 易燃固体</option>
+            <option value="第5.1类 氧化剂">第5.1类 氧化剂</option>
+            <option value="第5.2类 有机过氧化物">第5.2类 有机过氧化物</option>
+            <option value="第6.1类 毒害品">第6.1类 毒害品</option>
+            <option value="第8类 腐蚀品">第8类 腐蚀品</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="un_number">UN编号</label>
+          <input type="text" id="un_number" name="un_number" placeholder="如：UN1830">
+        </div>
+        <div class="form-group">
+          <label for="stock_quantity">库存数量</label>
+          <input type="number" id="stock_quantity" name="stock_quantity" min="0" value="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="location">存放位置</label>
+          <input type="text" id="location" name="location" placeholder="如：危化品库-A01">
+        </div>
+        <div class="form-group">
+          <label for="supervisor">责任人</label>
+          <input type="text" id="supervisor" name="supervisor" placeholder="请输入责任人姓名">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="risk_phrase">风险短语</label>
+        <textarea id="risk_phrase" name="risk_phrase" rows="2" placeholder="如：R35:引起严重灼伤"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="safety_phrase">安全短语</label>
+        <textarea id="safety_phrase" name="safety_phrase" rows="2" placeholder="如：S26:不慎与眼睛接触后立即用大量水冲洗并就医"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="storage_condition">储存条件</label>
+        <textarea id="storage_condition" name="storage_condition" rows="2" placeholder="请输入储存条件要求"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">保存</button>
+        <a href="/hazards" class="btn">取消</a>
+      </div>
+    </form>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>

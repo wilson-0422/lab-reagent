@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="/dashboard">实验室管控平台</a>
+    </div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <% if (typeof session !== 'undefined' && session && session.realName) { %>
+        <span class="user-info"><%= session.realName %></span>
+        <a href="/auth/logout" class="btn-logout">退出</a>
+      <% } %>
+    </div>
+  </nav>
+  <main class="container">
+    <%- body %>
+  </main>
+  <footer class="footer">
+    <p>&copy; 2026 实验室试剂与仪器管控平台</p>
+  </footer>
+  <script src="/js/main.js"></script>
+</body>
+</html>

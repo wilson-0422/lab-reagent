@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= instrument.name %> - 仪器详情 - 实验室试剂与仪器管控平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><a href="/dashboard">实验室管控平台</a></div>
+    <div class="nav-links">
+      <a href="/dashboard">首页</a>
+      <a href="/reagents">试剂管理</a>
+      <a href="/hazards">危化品台账</a>
+      <a href="/instruments" class="active">仪器预约</a>
+      <a href="/experiments">实验记录</a>
+    </div>
+    <div class="nav-user">
+      <span class="user-info"><%= session.realName %></span>
+      <a href="/auth/logout" class="btn-logout">退出</a>
+    </div>
+  </nav>
+  <main class="container">
+    <div class="page-header">
+      <h1><%= instrument.name %></h1>
+      <div>
+        <% if (instrument.status === '正常') { %>
+          <a href="/instruments/<%= instrument.id %>/reserve" class="btn btn-primary">预约使用</a>
+        <% } %>
+        <a href="/instruments" class="btn">返回列表</a>
+      </div>
+    </div>
+    <div class="detail-card">
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span class="detail-label">型号</span>
+          <span class="detail-value"><%= instrument.model || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">制造商</span>
+          <span class="detail-value"><%= instrument.manufacturer || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">序列号</span>
+          <span class="detail-value"><%= instrument.serial_number || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">分类</span>
+          <span class="detail-value"><%= instrument.category %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">位置</span>
+          <span class="detail-value"><%= instrument.location || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">状态</span>
+          <span class="detail-value"><span class="badge <%= instrument.status === '正常' ? 'badge-success' : instrument.status === '维修中' ? 'badge-danger' : 'badge-warning' %>"><%= instrument.status %></span></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">购入日期</span>
+          <span class="detail-value"><%= instrument.purchase_date || '-' %></span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">保修到期</span>
+          <span class="detail-value"><%= instrument.warranty_date || '-' %></span>
+        </div>
+      </div>
+      <% if (instrument.description) { %>
+        <div class="detail-full">
+          <div class="detail-item">
+            <span class="detail-label">描述</span>
+            <span class="detail-value"><%= instrument.description %></span>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="section">
+      <h2>预约记录</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>预约人</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>用途</th>
+            <th>状态</th>
+            <% if (session.role === 'admin') { %>
+              <th>操作</th>
+            <% } %>
+          </tr>
+        </thead>
+        <tbody>
+          <% reservations.forEach(function(r) { %>
+            <tr>
+              <td><%= r.user_name %></td>
+              <td><%= r.start_time %></td>
+              <td><%= r.end_time %></td>
+              <td><%= r.purpose || '-' %></td>
+              <td><span class="badge <%= r.status === '已确认' ? 'badge-success' : r.status === '已拒绝' ? 'badge-danger' : 'badge-warning' %>"><%= r.status %></span></td>
+              <% if (session.role === 'admin' && r.status === '待确认') { %>
+                <td>
+                  <form action="/instruments/<%= instrument.id %>/reservation/<%= r.id %>" method="POST" class="inline-form">
+                    <button type="submit" name="status" value="已确认" class="btn btn-sm btn-primary">确认</button>
+                    <button type="submit" name="status" value="已拒绝" class="btn btn-sm btn-danger">拒绝</button>
+                  </form>
+                </td>
+              <% } %>
+            </tr>
+          <% }) %>
+          <% if (reservations.length === 0) { %>
+            <tr><td colspan="<%= session.role === 'admin' ? 6 : 5 %>" class="text-center">暂无预约记录</td></tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <footer class="footer"><p>&copy; 2026 实验室试剂与仪器管控平台</p></footer>
+</body>
+</html>
